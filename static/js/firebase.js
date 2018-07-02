@@ -102,6 +102,27 @@ function addMoneyByMultiply(targetTeam, originalNum, multiply) {
     updateData(targetTeam, payload);
 }
 
+/**
+ * reset all Data.
+ */
+function resetAllData() {
+    for(let i = 0; i < 8; i++) {
+        getReference(i).set({
+            "team": i,
+            "money":0,
+            "atk": 0,
+            "def": 0,
+            "sp": 0,
+            "usedCardNum" : 0,
+            "atkTimes": 0,
+            "defTimes": 0,
+            "spTimes": 0,
+            "lastRank": 0,
+            "curRank": 0
+        })
+    }
+}
+
 // AttackCard functionality.
 
 function attackCardNumber(targetTeam, originalNum, substract) {
