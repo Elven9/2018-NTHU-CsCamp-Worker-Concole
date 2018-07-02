@@ -1,0 +1,5 @@
+/*
+    This file contain every functionality of cards.
+
+    Update firebase realtime database data
+*/
