@@ -9,3 +9,6 @@ npm-debug.log
 
 # Nuxt generate
 dist
+
+#npm package-lock
+package-lock.json
