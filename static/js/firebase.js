@@ -207,6 +207,33 @@ function substractRandomMoneyToAllTeamByPercent(originalNumList) {
     }
 }
 
+// Boss random.
+function RandomMoneyToAllTeamByNumber(originalNumList) {
+    var above = -300 * time;
+    var under = 300 * time;
+
+    for (let i = 0; i < 8; i++) {
+        var random = Math.floor(Math.random() * (under - above + 1)) + above;
+        var payload = {
+            "money" : originalNumList[i] + random
+        }
+        updateData(i, payload);
+    }
+}
+
+function RamdomMoneyToAllTeamByPercent(originalNumList) {
+    var above = -0.15 * time;
+    var under = 0.15 * time;
+
+    for (let i = 0; i < 8; i++) {
+        var random = Math.random() * (under - above) + above;
+        var payload = {
+            "money" : Math.ceil(originalNumList[i] + originalNumList[i] * random)
+        }
+        updateData(i, payload);
+    }
+}
+
 // Test.
 registerValueEvent(0, snap => {
     console.log(snap.val());
