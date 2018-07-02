@@ -11,6 +11,10 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+        { src: "https://www.gstatic.com/firebasejs/5.2.0/firebase.js", type: "text/javascript" },
+        { src: "/js/firebase.js", type: "text/javascript" },
     ]
   },
   css: [
