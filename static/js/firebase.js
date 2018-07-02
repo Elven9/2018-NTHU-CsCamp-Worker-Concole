@@ -49,8 +49,6 @@ function registerValueEvent(team, handler) {
     getReference(team).on("value", handler);
 }
 
-// Attack Card Functionality
-
 /**
  * Subtract team's money throught specific number of money.
  * @param { Int } targetTeam 
@@ -100,12 +98,13 @@ function addMoneyByNumber(targetTeam, originalNum, addNumber) {
  */
 function addMoneyByMultiply(targetTeam, originalNum, multiply) {
     var payload = {
-        "money": Math.ceil(originalNum * multiply)
+        "money": Math.ceil(originalNum * multiply) + originalNum
     }
     updateData(targetTeam, payload);
 }
 
-// AttackCard.
+// AttackCard functionality.
+
 function attackCardNumber(targetTeam, originalNum, substract) {
     substractByNumber(targetTeam, originalNum, substract);
 }
@@ -130,6 +129,31 @@ function attackCardRandomPercent(targetTeam, originalNum) {
     substractByPercent(targetTeam, originalNum, substractP);
 }
 
+// Addcard
+
+function addCardNumber(targetTeam, originalNum, add) {
+    addMoneyByNumber(targetTeam, originalNum, add);
+}
+
+function addCardPercent(targetTeam, originalNum, percent) {
+    addMoneyByMultiply(targetTeam, originalNum, percent);
+}
+
+function addCardRandomNumber(targetTeam, originalNum) {
+    var above = 100 * time;
+    var under = 300 * time;
+    var add = Math.floor(Math.random() * (under - above + 1)) + above;
+
+    addMoneyByNumber(targetTeam, originalNum, add);
+}
+
+function addCardRandomPercent(targetTeam, originalNum) {
+    var above = 0.1 * time;
+    var under = 0.15 * time;
+    var addP = Math.random() * (under - above) + above;
+
+    addMoneyByMultiply(targetTeam, originalNum, addP);
+}
 
 // Test.
 registerValueEvent(0, snap => {
