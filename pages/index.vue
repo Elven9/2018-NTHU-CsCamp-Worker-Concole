@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>Hello World</h1>
-        <button type="button" class="btn btn-primary" @click="click()">Primary</button>
+        <button @click="click()" type="button" class="btn btn-outline-warning">Warning</button>
     </div>
 </template>
 
@@ -9,8 +8,23 @@
 export default {
      methods: {
          click() {
-             console.log(apple);
+             console.log(this.$store.state);
          }
-     }
+     },
+     mounted() {
+        // update vuex store function.
+        for (let i = 0; i < 8; i++) {
+            registerValueEvent(i, snap => {
+                this.$store.commit("setData", {team: i+1, data: snap.val()});
+            })
+        }
+    }
 }
 </script>
+
+<style slotscoped>
+body {
+    margin: 0px;
+    background-color: rgb(34,34,34);
+}
+</style>

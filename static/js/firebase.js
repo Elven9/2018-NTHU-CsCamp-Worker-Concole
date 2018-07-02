@@ -37,7 +37,6 @@ function getReference(team) {
 function updateData(team, payload) {
     var teamRef = getReference(team);
     teamRef.update(payload);
-    console.log(`Update ${payload} of team ${team}`);
 }
 
 /**
@@ -233,8 +232,3 @@ function RamdomMoneyToAllTeamByPercent(originalNumList) {
         updateData(i, payload);
     }
 }
-
-// Test.
-registerValueEvent(0, snap => {
-    console.log(snap.val());
-})
