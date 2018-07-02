@@ -183,6 +183,30 @@ function substractMoneyToAllTeamByPercent(percent, originalNumList) {
     }
 }
 
+function addRandomMoneyToAllTeamByNumber(originalNumList) {
+    for (let i = 0; i < 8; i++) {
+        addCardRandomNumber(i, originalNumList[i]);
+    }
+}
+
+function addRandomMoneyToAllTeamByPercent(originalNumList) {
+    for (let i = 0; i < 8; i++) {
+       addCardRandomPercent(i, originalNumList[i]);
+    }
+}
+
+function substractRandomMoneyToAllTeamByNumber(originalNumList) {
+    for (let i = 0; i < 8; i++) {
+        attackCardRandomNumber(i, originalNumList[i]);
+    }
+}
+
+function substractRandomMoneyToAllTeamByPercent(originalNumList) {
+    for (let i = 0; i < 8; i++) {
+        attackCardRandomPercent(i, originalNumList[i]);
+    }
+}
+
 // Test.
 registerValueEvent(0, snap => {
     console.log(snap.val());
