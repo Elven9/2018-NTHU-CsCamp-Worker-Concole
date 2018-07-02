@@ -17,6 +17,8 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // Global functionality
+// Global Variable declaration.
+
 
 // Private Function.
 /**
@@ -75,8 +77,33 @@ function attackByPercent(targetTeam, originalNum, percent) {
     updateData(targetTeam, payload);
 }
 
+// Money Card functionality.
 
+/**
+ * Add team's money by specific number of money.
+ * @param { Int } targetTeam 
+ * @param { Int } originalNum 
+ * @param { Int } addNumber 
+ */
+function addMoneyByNumber(targetTeam, originalNum, addNumber) {
+    var payload = {
+        "money": originalNum + addNumber
+    }
+    updateData(targetTeam, payload);
+}
 
+/**
+ * Add money by multiply.
+ * @param { Int } targetTeam 
+ * @param { Int } originalNum 
+ * @param { Float } multiply 
+ */
+function addMoneyByMultiply(targetTeam, originalNum, multiply) {
+    var payload = {
+        "money": Math.ceil(originalNum * multiply)
+    }
+    updateData(targetTeam, payload);
+}
 
 // Test.
 registerValueEvent(0, snap => {
