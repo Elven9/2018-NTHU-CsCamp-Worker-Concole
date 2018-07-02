@@ -70,7 +70,7 @@ function substractByNumber(targetTeam, originalNum, substractNum) {
  */
 function substractByPercent(targetTeam, originalNum, percent) {
     var payload = {
-        "money": Math.ceil(originalNum * percent)
+        "money": originalNum - Math.ceil(originalNum * percent)
     }
     updateData(targetTeam, payload);
 }
@@ -153,6 +153,34 @@ function addCardRandomPercent(targetTeam, originalNum) {
     var addP = Math.random() * (under - above) + above;
 
     addMoneyByMultiply(targetTeam, originalNum, addP);
+}
+
+// Natural Event
+// To all Team effect.
+var list = [500, 500, 500, 500, 500, 500, 500, 500]; // for Test only.
+
+function addMoneyToAllTeamByNumber(number, originalNumList) {
+    for (let i = 0; i < 8; i++) {
+        addMoneyByNumber(i, originalNumList[i], number);
+    }
+}
+
+function addMoneyToAllTeamByPercent(percent, originalNumList) {
+    for (let i = 0; i < 8; i++) {
+        addMoneyByMultiply(i, originalNumList[i], percent);
+    }
+}
+
+function substractMoneyToAllTeamByNumber(number, originalNumList) {
+    for (let i = 0; i < 8; i++) {
+        substractByNumber(i, originalNumList[i], number);
+    }
+}
+
+function substractMoneyToAllTeamByPercent(percent, originalNumList) {
+    for (let i = 0; i < 8; i++) {
+        substractByPercent(i, originalNumList[i], percent);
+    }
 }
 
 // Test.
