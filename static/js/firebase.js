@@ -57,7 +57,7 @@ function registerValueEvent(team, handler) {
  * @param { Int } originalNum 
  * @param { Int } substractNum 
  */
-function attackByNumber(targetTeam, originalNum, substractNum) {
+function substractByNumber(targetTeam, originalNum, substractNum) {
     var payload = {
         "money": originalNum - substractNum
     };
@@ -70,7 +70,7 @@ function attackByNumber(targetTeam, originalNum, substractNum) {
  * @param { Int } originalNum 
  * @param { Float } percent 
  */
-function attackByPercent(targetTeam, originalNum, percent) {
+function substractByPercent(targetTeam, originalNum, percent) {
     var payload = {
         "money": Math.ceil(originalNum * percent)
     }
