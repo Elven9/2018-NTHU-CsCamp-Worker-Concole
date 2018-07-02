@@ -30,7 +30,7 @@ function getReference(team) {
 /**
  * Update specific key's value in database.
  * @param { Int } team 
- * @param { Object{name : value} } payload
+ * @param { Object {name : value} } payload
  */
 function updateData(team, payload) {
     var teamRef = getReference(team);
@@ -46,11 +46,39 @@ function updateData(team, payload) {
 function registerValueEvent(team, handler) {
     getReference(team).on("value", handler);
 }
-// Card functionality
+
+// Attack Card Functionality
+
+/**
+ * Subtract team's money throught specific number of money.
+ * @param { Int } targetTeam 
+ * @param { Int } originalNum 
+ * @param { Int } substractNum 
+ */
+function attackByNumber(targetTeam, originalNum, substractNum) {
+    var payload = {
+        "money": originalNum - substractNum
+    };
+    updateData(targetTeam, payload);
+}
+
+/**
+ * Subtrack team's money through percentage of it's money.
+ * @param { Int } targetTeam 
+ * @param { Int } originalNum 
+ * @param { Float } percent 
+ */
+function attackByPercent(targetTeam, originalNum, percent) {
+    var payload = {
+        "money": Math.ceil(originalNum * percent)
+    }
+    updateData(targetTeam, payload);
+}
 
 
 
-// // Test.
-// registerValueEvent(0, snap => {
-//     console.log(snap.val());
-// })
+
+// Test.
+registerValueEvent(0, snap => {
+    console.log(snap.val());
+})
