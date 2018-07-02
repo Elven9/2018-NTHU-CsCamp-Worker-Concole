@@ -18,7 +18,7 @@ var database = firebase.database();
 
 // Global functionality
 // Global Variable declaration.
-
+var time = 1;
 
 // Private Function.
 /**
@@ -104,6 +104,32 @@ function addMoneyByMultiply(targetTeam, originalNum, multiply) {
     }
     updateData(targetTeam, payload);
 }
+
+// AttackCard.
+function attackCardNumber(targetTeam, originalNum, substract) {
+    substractByNumber(targetTeam, originalNum, substract);
+}
+
+function attackCardPercent(targetTeam, originalNum, percent) {
+    substractByPercent(targetTeam, originalNum, percent);
+}
+
+function attackCardRandomNumber(targetTeam, originalNum) {
+    var above = 100 * time;
+    var under = 300 * time;
+    var substract = Math.floor(Math.random() * (under - above + 1)) + above;
+
+    substractByNumber(targetTeam, originalNum, substract);
+}
+
+function attackCardRandomPercent(targetTeam, originalNum) {
+    var above = 0.1 * time;
+    var under = 0.15 * time;
+    var substractP = Math.random() * (under - above) + above;
+
+    substractByPercent(targetTeam, originalNum, substractP);
+}
+
 
 // Test.
 registerValueEvent(0, snap => {
