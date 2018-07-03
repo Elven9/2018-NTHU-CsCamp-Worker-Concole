@@ -36,6 +36,12 @@ function getReference(team) {
  */
 function updateData(team, payload) {
     var teamRef = getReference(team);
+    // Detect negative number.
+    for(let v in payload) {
+        if (payload[v] < 0) {
+            payload[v] = 0;
+        }
+    }
     teamRef.update(payload);
 }
 
@@ -108,7 +114,7 @@ function addMoneyByMultiply(targetTeam, originalNum, multiply) {
 function resetAllData() {
     for(let i = 0; i < 8; i++) {
         getReference(i).set({
-            "team": i,
+            "team": i+1,
             "money":0,
             "atk": 0,
             "def": 0,
