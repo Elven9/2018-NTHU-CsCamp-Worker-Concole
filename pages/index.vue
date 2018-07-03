@@ -409,254 +409,395 @@
 
 <script>
 export default {
-     data(){
-         return {
-             currentSelectedTeam: 0,
-             dataNameinCN: ["現在總金錢數目", "團隊名稱", "攻擊卡張數", "已發動過攻擊次數", "防禦卡張數", "以抵擋過攻擊次數", "加錢卡張數", "已使用過加錢卡次數", "總使用過卡牌總數",  "當前名次", "上回合名次"],
-             dataNameList: ["money", "team", "atk", "atkTimes", "def", "defTimes", "sp", "spTimes", "usedCardNum", "curRank", "lastRank"],
-             teaminCN: ["一小", "二小", "三小", "四小", "五小", "六小", "七小", "八小"],
-             targetTeam: -1,
-             sourceTeam: -1,
-             inputMoney: 0
-         }
-     },
-     computed:{
-         getTeamData() {
-             return this.$store.state[`team${this.currentSelectedTeam + 1}`];
-         }
-     },
-     methods: {
-         changeTeam(targetTeam) {
-             this.currentSelectedTeam = targetTeam;
-         },
-         changeSourceTeam(sourceTeam) {
-             this.sourceTeam = sourceTeam;
-         },
-         changeTargetTeam(targetTeam) {
-             this.targetTeam = targetTeam;
-         },
-         clearTeamSelection() {
-             this.targetTeam = -1;
-             this.sourceTeam = -1;
-             this.inputMoney = 0;
-         },
-         getSpecificTeamData(team, key) {
-             return this.$store.state[`team${team + 1}`][key];
-         },
-         getAllTeamData(key) {
-             var data = [];
-             for(let i = 0; i < 8; i++) {
-                 data.push(this.getSpecificTeamData(i, key))
-             }
-             return data;
-         },
-         updateAttackCard(team) {
-             var payload = {
-                 "atk": this.getSpecificTeamData(team, "atk") - 1,
-                 "atkTimes": this.getSpecificTeamData(team, "atkTimes") + 1
-             };
-             updateData(team, payload);
-         },
-         updateAddCard(team) {
-             var payload = {
-                 "sp": this.getSpecificTeamData(team, "sp") - 1,
-                 "spTimes": this.getSpecificTeamData(team, "spTimes") + 1
-             };
-             updateData(team, payload);
-         },
-         updateDefCard(team) {
-             var payload = {
-                 "def": this.getSpecificTeamData(team, "def") - 1,
-                 "defTimes": this.getSpecificTeamData(team, "defTimes") + 1
-             };
-             updateData(team, payload);
-         },
-         updateUsedCardNum(team) {
-             var payload = {
-                 "usedCardNum": this.getSpecificTeamData(team, "usedCardNum") + 1,
-             };
-             updateData(team, payload);
-         },
-         // Logic From firebase.js
-         // Attack Card.
-         attackCardSN() {
-             if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
-                attackCardNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, 'money') , Number(this.inputMoney));
-             } else {
-                this.updateDefCard(this.targetTeam);
-             }
-             this.updateAttackCard(this.sourceTeam);
-             this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         attackCardP() {
-              if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
-                 attackCardPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, 'money') , Number(this.inputMoney));
-              } else {
-                  this.updateDefCard(this.targetTeam);
-              }
-             this.updateAttackCard(this.sourceTeam);
-              this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         attackCardRN() {
-              if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
-                attackCardRandomNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
-              } else {
-                this.updateDefCard(this.targetTeam);
-              }
-             this.updateAttackCard(this.sourceTeam);
-              this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         attackCardRP() {
-              if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
-                attackCardRandomPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
-              } else {
-                  this.updateDefCard(this.targetTeam);
-              }
-             this.updateAttackCard(this.sourceTeam);
-              this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         // Add Card.
-         addCardSN() {
-             addCardNumber(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"), Number(this.inputMoney));
-             this.updateAddCard(this.sourceTeam);
-              this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         addCardP() {
-             addCardPercent(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"), Number(this.inputMoney));
-             this.updateAddCard(this.sourceTeam);
-              this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         addCardRN() {
-             addCardRandomNumber(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"));
-             this.updateAddCard(this.sourceTeam);
-              this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         addCardRP() {
-             addCardRandomPercent(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"));
-             this.updateAddCard(this.sourceTeam);
-              this.updateUsedCardNum(this.sourceTeam);
-             this.clearTeamSelection();
-         },
-         // NaturalEvent.
-         eventAddN() {
-             addMoneyToAllTeamByNumber(Number(this.inputMoney), this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventAddP() {
-             addMoneyToAllTeamByPercent(Number(this.inputMoney), this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventSubN() {
-             substractMoneyToAllTeamByNumber(Number(this.inputMoney), this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventSubP() {
-             substractMoneyToAllTeamByPercent(Number(this.inputMoney), this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventAddRN() {
-             addRandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventAddRP() {
-             addRandomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventSubRN() {
-             substractRandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventSubRP() {
-             substractRandomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         // Boss Natural Event.
-         eventRN() {
-             RandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         },
-         eventRP() {
-             RamdomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
-             this.clearTeamSelection();
-         }
-     },
-     mounted() {
-        // update vuex store function.
-        for (let i = 0; i < 8; i++) {
-            registerValueEvent(i, snap => {
-                this.$store.commit("setData", {team: i+1, data: snap.val()});
-            })
-        }
+  data() {
+    return {
+      currentSelectedTeam: 0,
+      dataNameinCN: [
+        "現在總金錢數目",
+        "團隊名稱",
+        "攻擊卡張數",
+        "已發動過攻擊次數",
+        "防禦卡張數",
+        "以抵擋過攻擊次數",
+        "加錢卡張數",
+        "已使用過加錢卡次數",
+        "總使用過卡牌總數",
+        "當前名次",
+        "上回合名次"
+      ],
+      dataNameList: [
+        "money",
+        "team",
+        "atk",
+        "atkTimes",
+        "def",
+        "defTimes",
+        "sp",
+        "spTimes",
+        "usedCardNum",
+        "curRank",
+        "lastRank"
+      ],
+      teaminCN: [
+        "一小",
+        "二小",
+        "三小",
+        "四小",
+        "五小",
+        "六小",
+        "七小",
+        "八小"
+      ],
+      targetTeam: -1,
+      sourceTeam: -1,
+      inputMoney: 0
+    };
+  },
+  computed: {
+    getTeamData() {
+      return this.$store.state[`team${this.currentSelectedTeam + 1}`];
     }
-}
+  },
+  methods: {
+    changeTeam(targetTeam) {
+      this.currentSelectedTeam = targetTeam;
+    },
+    changeSourceTeam(sourceTeam) {
+      this.sourceTeam = sourceTeam;
+    },
+    changeTargetTeam(targetTeam) {
+      this.targetTeam = targetTeam;
+    },
+    clearTeamSelection() {
+      this.targetTeam = -1;
+      this.sourceTeam = -1;
+      this.inputMoney = 0;
+    },
+    getSpecificTeamData(team, key) {
+      return this.$store.state[`team${team + 1}`][key];
+    },
+    getAllTeamData(key) {
+      var data = [];
+      for (let i = 0; i < 8; i++) {
+        data.push(this.getSpecificTeamData(i, key));
+      }
+      return data;
+    },
+    updateAttackCard(team) {
+      var payload = {
+        atk: this.getSpecificTeamData(team, "atk") - 1,
+        atkTimes: this.getSpecificTeamData(team, "atkTimes") + 1
+      };
+      updateData(team, payload);
+    },
+    updateAddCard(team) {
+      var payload = {
+        sp: this.getSpecificTeamData(team, "sp") - 1,
+        spTimes: this.getSpecificTeamData(team, "spTimes") + 1
+      };
+      updateData(team, payload);
+    },
+    updateDefCard(team) {
+      var payload = {
+        def: this.getSpecificTeamData(team, "def") - 1,
+        defTimes: this.getSpecificTeamData(team, "defTimes") + 1
+      };
+      updateData(team, payload);
+    },
+    updateUsedCardNum(team) {
+      var payload = {
+        usedCardNum: this.getSpecificTeamData(team, "usedCardNum") + 1
+      };
+      updateData(team, payload);
+    },
+    // Logic From firebase.js
+    // Attack Card.
+    attackCardSN() {
+      if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+        attackCardNumber(
+          this.targetTeam,
+          this.getSpecificTeamData(this.targetTeam, "money"),
+          Number(this.inputMoney)
+        );
+      } else {
+        this.updateDefCard(this.targetTeam);
+      }
+      this.updateAttackCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    attackCardP() {
+      if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+        attackCardPercent(
+          this.targetTeam,
+          this.getSpecificTeamData(this.targetTeam, "money"),
+          Number(this.inputMoney)
+        );
+      } else {
+        this.updateDefCard(this.targetTeam);
+      }
+      this.updateAttackCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    attackCardRN() {
+      if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+        attackCardRandomNumber(
+          this.targetTeam,
+          this.getSpecificTeamData(this.targetTeam, "money")
+        );
+      } else {
+        this.updateDefCard(this.targetTeam);
+      }
+      this.updateAttackCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    attackCardRP() {
+      if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+        attackCardRandomPercent(
+          this.targetTeam,
+          this.getSpecificTeamData(this.targetTeam, "money")
+        );
+      } else {
+        this.updateDefCard(this.targetTeam);
+      }
+      this.updateAttackCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    // Add Card.
+    addCardSN() {
+      addCardNumber(
+        this.sourceTeam,
+        this.getSpecificTeamData(this.sourceTeam, "money"),
+        Number(this.inputMoney)
+      );
+      this.updateAddCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    addCardP() {
+      addCardPercent(
+        this.sourceTeam,
+        this.getSpecificTeamData(this.sourceTeam, "money"),
+        Number(this.inputMoney)
+      );
+      this.updateAddCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    addCardRN() {
+      addCardRandomNumber(
+        this.sourceTeam,
+        this.getSpecificTeamData(this.sourceTeam, "money")
+      );
+      this.updateAddCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    addCardRP() {
+      addCardRandomPercent(
+        this.sourceTeam,
+        this.getSpecificTeamData(this.sourceTeam, "money")
+      );
+      this.updateAddCard(this.sourceTeam);
+      this.updateUsedCardNum(this.sourceTeam);
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    // NaturalEvent.
+    eventAddN() {
+      addMoneyToAllTeamByNumber(
+        Number(this.inputMoney),
+        this.getAllTeamData("money")
+      );
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventAddP() {
+      addMoneyToAllTeamByPercent(
+        Number(this.inputMoney),
+        this.getAllTeamData("money")
+      );
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventSubN() {
+      substractMoneyToAllTeamByNumber(
+        Number(this.inputMoney),
+        this.getAllTeamData("money")
+      );
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventSubP() {
+      substractMoneyToAllTeamByPercent(
+        Number(this.inputMoney),
+        this.getAllTeamData("money")
+      );
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventAddRN() {
+      addRandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventAddRP() {
+      addRandomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventSubRN() {
+      substractRandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventSubRP() {
+      substractRandomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    // Boss Natural Event.
+    eventRN() {
+      RandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    eventRP() {
+      RamdomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
+      this.clearTeamSelection();
+      this.updateRank();
+    },
+    updateRank() {
+        // last rank.
+        var lastRank = [];
+        for(let i = 0;i < 8;i++) {
+            lastRank.push(this.$store.state[`team${i + 1}`]["curRank"]);
+        }
+
+      var data = [];
+      for (let i = 0; i < 8; i++) {
+        var payload = {
+          money: this.getSpecificTeamData(i, "money"),
+          team: i
+        };
+        data.push(payload);
+      }
+      data.sort((obj1, obj2) => {
+        if (obj1["money"] < obj2["money"]) {
+          return 1;
+        } else if (obj1["money"] > obj2["money"]) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      // update count.
+      var curRank = 1;
+      var count = 1;
+      var lastNum = -1;
+      for (let e of data) {
+          if (e["money"] !== lastNum) {
+              curRank = count;
+              updateData(e["team"], {
+                  "lastRank": lastRank[e["team"]],
+                  "curRank": curRank
+              });
+              count += 1;
+              lastNum =  e["money"];
+          } else if (e["money" === lastNum]) {
+              updateData(e["team"], {
+                  "lastRank": lastRank[e["team"]],
+                  "curRank": curRank
+              });
+              count += 1;
+              lastNum =  e["money"];
+          }
+      }
+    }
+  },
+  mounted() {
+    // update vuex store function.
+    for (let i = 0; i < 8; i++) {
+      registerValueEvent(i, snap => {
+        this.$store.commit("setData", { team: i + 1, data: snap.val() });
+      });
+    }
+  }
+};
 </script>
 
 <style slotscoped>
 body {
-    margin: 0px;
-    background-color: rgb(34,34,34);
+  margin: 0px;
+  background-color: rgb(34, 34, 34);
 }
 p {
-    color: bisque;
-    /* text-align: center; */
-    margin: 5px;
-    font-size: 16px;
+  color: bisque;
+  /* text-align: center; */
+  margin: 5px;
+  font-size: 16px;
 }
 h3 {
-    margin: 15px;
-    color: bisque;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin: 15px;
+  color: bisque;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 h4 {
-    margin: 15px;
-    color: bisque;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin: 15px;
+  color: bisque;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 #displayer {
-    border-style: solid;
-    border-color: bisque;
-    border-width: 3px;
-    border-radius: 2px;
-    margin: 15px;
-    margin-left: 30px;
-    padding: 10px;
+  border-style: solid;
+  border-color: bisque;
+  border-width: 3px;
+  border-radius: 2px;
+  margin: 15px;
+  margin-left: 30px;
+  padding: 10px;
 }
 #selector {
-    position: sticky;
-    top: 0px;
-    background-color: rgb(114, 16, 16);
-    z-index: 1;
+  position: sticky;
+  top: 0px;
+  background-color: rgb(114, 16, 16);
+  z-index: 1;
 }
 #selectButton {
-    margin: 30px;
-    padding: 10px;
-    width: 426px;
+  margin: 30px;
+  padding: 10px;
+  width: 426px;
 }
 #teamDataList {
-    list-style-type: circle;
-    color: bisque;
+  list-style-type: circle;
+  color: bisque;
 }
 #teamData {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 #noneList {
-    list-style-type: none;
+  list-style-type: none;
 }
 #buttonList {
-    margin: 50px;
+  margin: 50px;
 }
 #buttonUiStyle {
-    margin-left: 40px;
+  margin-left: 40px;
 }
 #buttonLiStyle {
-    list-style-type: circle;
-    color: bisque;
+  list-style-type: circle;
+  color: bisque;
 }
 </style>
