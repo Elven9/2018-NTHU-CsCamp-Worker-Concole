@@ -368,6 +368,41 @@
                 </ul>
             </div>
             
+             <!-- Header -->
+            <div class="col-12">
+                <h3>天然事件 Boss</h3>
+            </div>
+
+            <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然亂數數字金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventRN()">執行</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然亂數趴數金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventRP()">執行</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </template>
@@ -413,7 +448,6 @@ export default {
              for(let i = 0; i < 8; i++) {
                  data.push(this.getSpecificTeamData(i, key))
              }
-             console.log(data);
              return data;
          },
          // Logic From firebase.js
@@ -484,6 +518,15 @@ export default {
              substractRandomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
              this.clearTeamSelection();
          },
+         // Boss Natural Event.
+         eventRN() {
+             RandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventRP() {
+             RamdomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         }
      },
      mounted() {
         // update vuex store function.
