@@ -715,7 +715,7 @@ export default {
               });
               count += 1;
               lastNum =  e["money"];
-          } else if (e["money" === lastNum]) {
+          } else if (e["money"] === lastNum) {
               updateData(e["team"], {
                   "lastRank": lastRank[e["team"]],
                   "curRank": curRank
