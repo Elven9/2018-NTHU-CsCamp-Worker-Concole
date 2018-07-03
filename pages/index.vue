@@ -31,39 +31,41 @@
                     </div>
                 </div>
             </div>
+        </div>
             <!-- Card utility  -->
             <!-- Card Target Select List -->
-            <div class="col-12">
-                <div class="row align-items-center">
-                    <div class="col-5">
-                         <div id="selectButton" class="row justify-content-center">
-                            <div class="col-6">
-                                <div class="dropdown">
-                                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ `出卡小隊：${sourceTeam === -1?"請選擇":teaminCN[sourceTeam]}` }}</button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a v-for="i in 8" class="dropdown-item" :key="i" @click="changeSourceTeam(i - 1)">{{ teaminCN[i - 1] }}</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="dropdown">
-                                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ `目標小隊：${targetTeam === -1?"請選擇":teaminCN[targetTeam]}` }}</button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a v-for="i in 8" class="dropdown-item" :key="i" @click="changeTargetTeam(i - 1)">{{ teaminCN[i - 1] }}</a>
-                                    </div>
+        <div id="selector">
+            <div class="row align-items-center">
+                <div class="col-5">
+                        <div id="selectButton" class="row justify-content-center">
+                        <div class="col-6">
+                            <div class="dropdown">
+                                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ `出卡小隊：${sourceTeam === -1?"請選擇":teaminCN[sourceTeam]}` }}</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a v-for="i in 8" class="dropdown-item" :key="i" @click="changeSourceTeam(i - 1)">{{ teaminCN[i - 1] }}</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-7">
-                          <div id="buttonList">
-                            <button @click="clearTeamSelection()" type="button" class="btn btn-outline-warning">清除目前所選資料</button>
+                        <div class="col-6">
+                            <div class="dropdown">
+                                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ `目標小隊：${targetTeam === -1?"請選擇":teaminCN[targetTeam]}` }}</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a v-for="i in 8" class="dropdown-item" :key="i" @click="changeTargetTeam(i - 1)">{{ teaminCN[i - 1] }}</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-7">
+                        <div id="buttonList">
+                        <button @click="clearTeamSelection()" type="button" class="btn btn-outline-warning">清除目前所選資料</button>
+                    </div>
+                </div>
             </div>
+        </div>
             
             <!-- Header -->
+        <div class="row">
             <div class="col-12">
                 <h3>攻擊卡</h3>
             </div>
@@ -332,6 +334,12 @@ h4 {
     margin: 15px;
     margin-left: 30px;
     padding: 10px;
+}
+#selector {
+    position: sticky;
+    top: 0px;
+    background-color: rgb(114, 16, 16);
+    z-index: 1;
 }
 #selectButton {
     margin: 30px;
