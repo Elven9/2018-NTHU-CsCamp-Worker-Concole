@@ -450,39 +450,98 @@ export default {
              }
              return data;
          },
+         updateAttackCard(team) {
+             var payload = {
+                 "atk": this.getSpecificTeamData(team, "atk") - 1,
+                 "atkTimes": this.getSpecificTeamData(team, "atkTimes") + 1
+             };
+             updateData(team, payload);
+         },
+         updateAddCard(team) {
+             var payload = {
+                 "sp": this.getSpecificTeamData(team, "sp") - 1,
+                 "spTimes": this.getSpecificTeamData(team, "spTimes") + 1
+             };
+             updateData(team, payload);
+         },
+         updateDefCard(team) {
+             var payload = {
+                 "def": this.getSpecificTeamData(team, "def") - 1,
+                 "defTimes": this.getSpecificTeamData(team, "defTimes") + 1
+             };
+             updateData(team, payload);
+         },
+         updateUsedCardNum(team) {
+             var payload = {
+                 "usedCardNum": this.getSpecificTeamData(team, "usedCardNum") + 1,
+             };
+             updateData(team, payload);
+         },
          // Logic From firebase.js
          // Attack Card.
          attackCardSN() {
-             attackCardNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, 'money') , Number(this.inputMoney));
+             if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+                attackCardNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, 'money') , Number(this.inputMoney));
+             } else {
+                this.updateDefCard(this.targetTeam);
+             }
+             this.updateAttackCard(this.sourceTeam);
+             this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          attackCardP() {
-             attackCardPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, 'money') , Number(this.inputMoney));
+              if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+                 attackCardPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, 'money') , Number(this.inputMoney));
+              } else {
+                  this.updateDefCard(this.targetTeam);
+              }
+             this.updateAttackCard(this.sourceTeam);
+              this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          attackCardRN() {
-             attackCardRandomNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
+              if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+                attackCardRandomNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
+              } else {
+                this.updateDefCard(this.targetTeam);
+              }
+             this.updateAttackCard(this.sourceTeam);
+              this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          attackCardRP() {
-             attackCardRandomPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
+              if (this.getSpecificTeamData(this.targetTeam, "def") <= 0) {
+                attackCardRandomPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
+              } else {
+                  this.updateDefCard(this.targetTeam);
+              }
+             this.updateAttackCard(this.sourceTeam);
+              this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          // Add Card.
          addCardSN() {
-             addCardNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"), Number(this.inputMoney));
+             addCardNumber(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"), Number(this.inputMoney));
+             this.updateAddCard(this.sourceTeam);
+              this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          addCardP() {
-             addCardPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"), Number(this.inputMoney));
+             addCardPercent(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"), Number(this.inputMoney));
+             this.updateAddCard(this.sourceTeam);
+              this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          addCardRN() {
-             addCardRandomNumber(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
+             addCardRandomNumber(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"));
+             this.updateAddCard(this.sourceTeam);
+              this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          addCardRP() {
-             addCardRandomPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
+             addCardRandomPercent(this.sourceTeam, this.getSpecificTeamData(this.sourceTeam, "money"));
+             this.updateAddCard(this.sourceTeam);
+              this.updateUsedCardNum(this.sourceTeam);
              this.clearTeamSelection();
          },
          // NaturalEvent.
