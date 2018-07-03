@@ -146,6 +146,7 @@
             <div class="col-12">
                 <h3>加錢卡</h3>
             </div>
+            <!-- Add Card -->
             <div class="col-12">
                 <ul id="buttonUiStyle">
                     <li id="buttonLiStyle">
@@ -218,6 +219,155 @@
                 </ul>
             </div>
 
+            <!-- Header -->
+            <div class="col-12">
+                <h3>天然事件</h3>
+            </div>
+
+            <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然增加數字金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventAddN()">執行</button>
+                            </div>
+                             <div class="col-2">
+                                <input v-model="inputMoney" type="email" class="form-control" aria-describedby="emailHelp" placeholder="輸入金錢">
+                            </div>
+                            <div class="col-5">
+                                <p>{{ `目前輸入金額：${inputMoney}` }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+             <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然增加趴數金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventAddP()">執行</button>
+                            </div>
+                             <div class="col-2">
+                                <input v-model="inputMoney" type="email" class="form-control" aria-describedby="emailHelp" placeholder="輸入金錢">
+                            </div>
+                            <div class="col-5">
+                                <p>{{ `目前輸入金額：${inputMoney}` }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+             <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然減少數字金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventSubN()">執行</button>
+                            </div>
+                             <div class="col-2">
+                                <input v-model="inputMoney" type="email" class="form-control" aria-describedby="emailHelp" placeholder="輸入金錢">
+                            </div>
+                            <div class="col-5">
+                                <p>{{ `目前輸入金額：${inputMoney}` }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+             <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然減少趴數金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventSubP()">執行</button>
+                            </div>
+                             <div class="col-2">
+                                <input v-model="inputMoney" type="email" class="form-control" aria-describedby="emailHelp" placeholder="輸入金錢">
+                            </div>
+                            <div class="col-5">
+                                <p>{{ `目前輸入金額：${inputMoney}` }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+             <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然亂數加數字金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventAddRN()">執行</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+             <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然亂數加趴數金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventAddRP()">執行</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+             <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然亂數減數字金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventSubRN()">執行</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+             <div class="col-12">
+                <ul id="buttonUiStyle">
+                    <li id="buttonLiStyle">
+                         <div class="row align-items-center">
+                            <div class="col-3">
+                                 <h4>天然亂數減趴數金錢事件</h4>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-outline-danger" @click="eventSubRP()">執行</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
         </div>
     </div>
 </template>
@@ -258,6 +408,14 @@ export default {
          getSpecificTeamData(team, key) {
              return this.$store.state[`team${team + 1}`][key];
          },
+         getAllTeamData(key) {
+             var data = [];
+             for(let i = 0; i < 8; i++) {
+                 data.push(this.getSpecificTeamData(i, key))
+             }
+             console.log(data);
+             return data;
+         },
          // Logic From firebase.js
          // Attack Card.
          attackCardSN() {
@@ -292,7 +450,40 @@ export default {
          addCardRP() {
              addCardRandomPercent(this.targetTeam, this.getSpecificTeamData(this.targetTeam, "money"));
              this.clearTeamSelection();
-         }
+         },
+         // NaturalEvent.
+         eventAddN() {
+             addMoneyToAllTeamByNumber(Number(this.inputMoney), this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventAddP() {
+             addMoneyToAllTeamByPercent(Number(this.inputMoney), this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventSubN() {
+             substractMoneyToAllTeamByNumber(Number(this.inputMoney), this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventSubP() {
+             substractMoneyToAllTeamByPercent(Number(this.inputMoney), this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventAddRN() {
+             addRandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventAddRP() {
+             addRandomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventSubRN() {
+             substractRandomMoneyToAllTeamByNumber(this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
+         eventSubRP() {
+             substractRandomMoneyToAllTeamByPercent(this.getAllTeamData("money"));
+             this.clearTeamSelection();
+         },
      },
      mounted() {
         // update vuex store function.
