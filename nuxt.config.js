@@ -18,7 +18,8 @@ module.exports = {
     ]
   },
   css: [
-      { src: '~static/css/bootstrap.min.css', lang: 'css'}
+      { src: '~static/css/bootstrap.min.css', lang: 'css'},
+      { src: '~static/css/global.css', lang: 'css' }
   ],
   /*
   ** Customize the progress bar color

@@ -679,51 +679,51 @@ export default {
     },
     updateRank() {
         // last rank.
-        var lastRank = [];
-        for(let i = 0;i < 8;i++) {
-            lastRank.push(this.$store.state[`team${i + 1}`]["curRank"]);
-        }
+                    var lastRank = [];
+                    for(let i = 0;i < 8;i++) {
+                        lastRank.push(this.$store.state[`team${i + 1}`]["curRank"]);
+                    }
 
-      var data = [];
-      for (let i = 0; i < 8; i++) {
-        var payload = {
-          money: this.getSpecificTeamData(i, "money"),
-          team: i
-        };
-        data.push(payload);
-      }
-      data.sort((obj1, obj2) => {
-        if (obj1["money"] < obj2["money"]) {
-          return 1;
-        } else if (obj1["money"] > obj2["money"]) {
-          return -1;
-        } else {
-          return 0;
-        }
-      });
+                var data = [];
+                for (let i = 0; i < 8; i++) {
+                    var payload = {
+                    money: this.$store.state[`team${i + 1}`]['money'],
+                    team: i
+                    };
+                    data.push(payload);
+                }
+                data.sort((obj1, obj2) => {
+                    if (obj1["money"] < obj2["money"]) {
+                    return 1;
+                    } else if (obj1["money"] > obj2["money"]) {
+                    return -1;
+                    } else {
+                    return 0;
+                    }
+                });
 
-      // update count.
-      var curRank = 1;
-      var count = 1;
-      var lastNum = -1;
-      for (let e of data) {
-          if (e["money"] !== lastNum) {
-              curRank = count;
-              updateData(e["team"], {
-                  "lastRank": lastRank[e["team"]],
-                  "curRank": curRank
-              });
-              count += 1;
-              lastNum =  e["money"];
-          } else if (e["money"] === lastNum) {
-              updateData(e["team"], {
-                  "lastRank": lastRank[e["team"]],
-                  "curRank": curRank
-              });
-              count += 1;
-              lastNum =  e["money"];
-          }
-      }
+                // update count.
+                var curRank = 1;
+                var count = 1;
+                var lastNum = -1;
+                for (let e of data) {
+                    if (e["money"] !== lastNum) {
+                        curRank = count;
+                        updateData(e["team"], {
+                            "lastRank": lastRank[e["team"]],
+                            "curRank": curRank
+                        });
+                        count += 1;
+                        lastNum =  e["money"];
+                    } else if (e["money"] === lastNum) {
+                        updateData(e["team"], {
+                            "lastRank": lastRank[e["team"]],
+                            "curRank": curRank
+                        });
+                        count += 1;
+                        lastNum =  e["money"];
+                    }
+                }
     }
   },
   mounted() {
@@ -738,28 +738,7 @@ export default {
 </script>
 
 <style slotscoped>
-body {
-  margin: 0px;
-  background-color: rgb(34, 34, 34);
-}
-p {
-  color: bisque;
-  /* text-align: center; */
-  margin: 5px;
-  font-size: 16px;
-}
-h3 {
-  margin: 15px;
-  color: bisque;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-}
-h4 {
-  margin: 15px;
-  color: bisque;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-}
+
 #displayer {
   border-style: solid;
   border-color: bisque;

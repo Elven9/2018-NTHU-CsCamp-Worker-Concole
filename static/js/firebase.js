@@ -29,6 +29,29 @@ function getReference(team) {
     return database.ref(`teams/${team}`)
 }
 
+function getEventReference(team) {
+    return database.ref(`changes/${team}`);
+}
+
+function registerEventsValue(team, handler) {
+    getEventReference(team).on('value', handler);
+}
+
+function updateEvent(team, payload) {
+    var teamEventRef = getEventReference(team);
+    teamEventRef.update(payload);
+}
+
+function resetEvent() {
+    for(let i = 0; i < 8; i++) {
+        getEventReference(i).set({
+            "team": i + 1,
+            "target": -1,
+            "kindofCard": "None"
+        })
+    }
+}
+
 /**
  * Update specific key's value in database.
  * @param { Int } team 
@@ -111,6 +134,7 @@ function addMoneyByMultiply(targetTeam, originalNum, multiply) {
 /**
  * reset all Data.
  */
+
 function resetAllData() {
     for(let i = 0; i < 8; i++) {
         getReference(i).set({
@@ -125,6 +149,16 @@ function resetAllData() {
             "spTimes": 0,
             "lastRank": 0,
             "curRank": 0
+        })
+    }
+}
+
+function resetEvent() {
+    for(let i = 0; i < 8; i++) {
+        getEventReference(i).set({
+            'kindofCard': 'None',
+            "target": -1,
+            "team": i+1
         })
     }
 }

@@ -1,0 +1,22 @@
+body {
+margin: 0px;
+background-color: rgb(34, 34, 34);
+}
+p {
+color: bisque;
+/* text-align: center; */
+margin: 5px;
+font-size: 16px;
+}
+h3 {
+margin: 15px;
+color: bisque;
+font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+h4 {
+margin: 15px;
+color: bisque;
+font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
