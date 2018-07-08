@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-outline-light btn-sm">更新</button>
+                <button @click="updateChange()" type="button" class="btn btn-outline-light btn-sm">更新</button>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@ export default {
         updateChange() {
             var originalData = this.$store.state;
 
-            updateData(teamtoChange - 1, {
+            updateData(this.teamtoChange - 1, {
                 "atk": originalData[`team${this.teamtoChange}`]['atk'] + this.atk,
                 "def": originalData[`team${this.teamtoChange}`]['def'] + this.def,
                 "sp": originalData[`team${this.teamtoChange}`]['sp'] + this.sp
