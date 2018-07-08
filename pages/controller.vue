@@ -1,9 +1,9 @@
 <template>
-    <div class="row">
-        <div class="col-12">
+    <div id="page" class="row">
+        <!-- <div class="col-12">
             <h3>小隊資料</h3>
         </div>
-        <data-display></data-display>
+        <data-display></data-display> -->
         <commit-logic />
     </div>
 </template>
@@ -29,6 +29,16 @@ export default {
         database.ref().on('value', (snap) => {
             this.$store.commit('setIsProcess', snap.val().isProcess);
         })
+        database.ref().on('value', (snap) => {
+            this.$store.commit('setIsBattling', snap.val().isBattling);
+        })
     }
 }
 </script>
+
+<style scoped>
+#page {
+    padding-bottom: 60px;
+}
+</style>
+

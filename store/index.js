@@ -18,7 +18,8 @@ export const state = () => {
             team7: {},
             team8: {},
         },
-        isProcess: false
+        isProcess: false,
+        isBattling: true
     }
 }
 
@@ -30,7 +31,9 @@ export const mutations = {
         state[`event`][`team${payload.team}`] = payload.data;
     },
     setIsProcess(state, payload) {
-        console.log(payload)
         state['isProcess'] = payload;
+    },
+    setIsBattling(state, payload) {
+        state['isBattling'] = payload;
     }
 }
