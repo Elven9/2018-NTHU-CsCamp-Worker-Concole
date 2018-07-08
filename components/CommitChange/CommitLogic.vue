@@ -4,7 +4,7 @@
             <update-data />
         </div>
         <div class="col-6">
-            <h3>---------控制按鈕---------</h3>
+            <h3 style="text-align:center;">---------控制按鈕---------</h3>
             <div class="row align-items-center">
                 <div class="col-8"><h4>更改小隊出牌</h4></div>
                 <div class="col-4"><button type="button" class="btn btn-outline-warning" @click="commit()">開始執行</button></div>
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-6">
-            <h3>---------指令更改---------</h3>
+            <h3 style="text-align:center;">---------指令更改---------</h3>
             <div class="row align-items-center">
                 <div class="col-5">
                     <h4>是否使用趴數</h4>
@@ -166,20 +166,22 @@ export default {
             console.log(this.isByPercent)
             // create event list.
             var events = [];
+            var defTeams = [];
             var eventData = this.$store.state.event;
             var originalData = this.$store.state;
             for(let i = 0; i < 8; i++) {
-                if (eventData[`team${i+1}`]["kindofCard"] !== "None") {
+                if (eventData[`team${i+1}`]["kindofCard"] !== "None" && eventData[`team${i+1}`]["kindofCard"] !== "Def") {
                     events.push({
                         "sourceTeam": i + 1,
                         "targetTeam": eventData[`team${i+1}`]['target'],
                         "action": eventData[`team${i+1}`]['kindofCard'],
                         "rank": originalData[`team${i+1}`]['curRank']
                     })
+                } else if (eventData[`team${i+1}`]["kindofCard"] === "Def") {
+                    defTeams.push(i+1);
                 }
             }
 
-            resetEvent();
             var em = this;
             // Sort.
             events.sort(( firstElement, secondElement) => {
@@ -240,10 +242,12 @@ export default {
              }
             
             console.log(events);
+            console.log(defTeams);
             // Process Event by promise.
             async function processEvent() {
                 for(let event of events) {
                     // Process Event based on their action type and isPercent.
+                    console.log(eventData[`team${event["sourceTeam"]}`]['target'] === -1);
                      event["originalTargetValue"] = eventData[`team${event["sourceTeam"]}`]['target'] === -1?-1:originalData[`team${eventData[`team${event["sourceTeam"]}`]['target']}`]['money'];
                      event["originalSourceValue"] = originalData[`team${eventData[`team${event["sourceTeam"]}`]["team"]}`]['money'];
                      event["targetDef"] = eventData[`team${event["sourceTeam"]}`]['target'] === -1?-1:originalData[`team${eventData[`team${event["sourceTeam"]}`]['target']}`]['def'];
@@ -266,7 +270,7 @@ export default {
                             // Attack Base on Percent or not.
                             
                             setTimeout(() => {
-                                  if (event['targetDef'] > 0) {
+                                  if (event['targetDef'] > 0 && defTeams.indexOf(event['targetTeam']) !== -1) {
                                     // Update message.
                                     database.ref("announcement").update({
                                         type: "Atk-fail",
@@ -350,7 +354,17 @@ export default {
                     } else if (event['action'] === "NA") {
 
                     }
+
+                    // Reset Event.
+                     getEventReference(event['sourceTeam']-1).set({
+                        "team": event['sourceTeam'],
+                        "target": -1,
+                        "kindofCard": "None"
+                    })
                 }
+
+                // resetAllEvent.
+                resetEvent();
             }
             processEvent();
         }
