@@ -1,6 +1,6 @@
 <template>
     <div style="padding-bottom:30px;">
-        <h3 style="text-align:center;">------------------------更改資料按鈕----------------------</h3>
+        <h3 style="text-align:center;">------------------------更改資料按鈕------------------------</h3>
         <div class="row">
             <div class="col-2">
                 <div class="dropdown" style="padding-left:30px">
@@ -15,24 +15,28 @@
                    <div class="col-3">
                        <div class="row">
                             <div class="col-12 align-self-center"><p>{{ `O 攻擊圈圈 👉 ${atk}` }}</p></div>
-                            <div class="col-12 align-self-center"><button @click="atk += 1" type="button" class="btn btn-outline-info btn-sm">+1</button></div>
+                            <div class="col-2 align-self-center"><button @click="atk += 1" type="button" class="btn btn-outline-info btn-sm">+1</button></div>
+                            <div class="col-6 align-self-center"><button @click="atk -= 1" type="button" class="btn btn-outline-info btn-sm">-1</button></div>
                        </div>
                    </div>
                     <div class="col-3">
                        <div class="row">
                             <div class="col-12 align-self-center"><p>{{ `X 加值叉叉 👉 ${sp}` }}</p></div>
-                            <div class="col-12 align-self-center"><button @click="sp += 1" type="button" class="btn btn-outline-info btn-sm">+1</button></div>
+                            <div class="col-2 align-self-center"><button @click="sp += 1" type="button" class="btn btn-outline-info btn-sm">+1</button></div>
+                            <div class="col-6 align-self-center"><button @click="sp -= 1" type="button" class="btn btn-outline-info btn-sm">-1</button></div>
                        </div>
                    </div>
                     <div class="col-3">
                        <div class="row">
                             <div class="col-12 align-self-center"><p>{{ `T 防禦倒T 👉 ${def}` }}</p></div>
-                            <div class="col-12 align-self-center"><button @click="def += 1" type="button" class="btn btn-outline-info btn-sm">+1</button></div>
+                            <div class="col-2 align-self-center"><button @click="def += 1" type="button" class="btn btn-outline-info btn-sm">+1</button></div>
+                            <div class="col-6 align-self-center"><button @click="def -= 1" type="button" class="btn btn-outline-info btn-sm">-1</button></div>
                        </div>
                    </div>
                     <div class="col-3">
                         <div class="col-12"><p>{{ `🎖 增加金錢 👉 ${money}` }}</p></div>
-                        <div class="col-12"><button @click="money += 500" type="button" class="btn btn-outline-info btn-sm">+500</button></div>
+                        <div style="padding-bottom: 5px;" class="col-6"><button @click="money += 500" type="button" class="btn btn-outline-info btn-sm">+500</button></div>
+                        <div class="col-6"><button @click="money -= 500" type="button" class="btn btn-outline-info btn-sm">-500</button></div>
                     </div>
                 </div>
             </div>
