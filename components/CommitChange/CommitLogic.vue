@@ -159,11 +159,10 @@ export default {
         },
         toggleIsBattling() {
             database.ref().update({
-                "isBattling": !!this.$store.state.isBattling
+                "isBattling": !this.$store.state.isBattling
             })
         },
         commit() {
-            console.log(this.isByPercent)
             // create event list.
             var events = [];
             var defTeams = [];
@@ -183,7 +182,8 @@ export default {
             }
 
             var em = this;
-            // Sort.
+
+            // Sort For Processing Priority.
             events.sort(( firstElement, secondElement) => {
                 if (firstElement.rank > secondElement.rank) {
                     return -1;
@@ -193,6 +193,7 @@ export default {
                     return 0;
                 }
             })
+
             function updateRank() {
                 // last rank.
                 var lastRank = [];
@@ -247,11 +248,10 @@ export default {
             async function processEvent() {
                 for(let event of events) {
                     // Process Event based on their action type and isPercent.
-                    console.log(eventData[`team${event["sourceTeam"]}`]['target'] === -1);
-                     event["originalTargetValue"] = eventData[`team${event["sourceTeam"]}`]['target'] === -1?-1:originalData[`team${eventData[`team${event["sourceTeam"]}`]['target']}`]['money'];
-                     event["originalSourceValue"] = originalData[`team${eventData[`team${event["sourceTeam"]}`]["team"]}`]['money'];
-                     event["targetDef"] = eventData[`team${event["sourceTeam"]}`]['target'] === -1?-1:originalData[`team${eventData[`team${event["sourceTeam"]}`]['target']}`]['def'];
-                     event["rank"] = originalData[`team${event["sourceTeam"]}`]['curRank'];
+                    event["originalTargetValue"] = eventData[`team${event["sourceTeam"]}`]['target'] === -1?-1:originalData[`team${eventData[`team${event["sourceTeam"]}`]['target']}`]['money'];
+                    event["originalSourceValue"] = originalData[`team${eventData[`team${event["sourceTeam"]}`]["team"]}`]['money'];
+                    event["targetDef"] = eventData[`team${event["sourceTeam"]}`]['target'] === -1?-1:originalData[`team${eventData[`team${event["sourceTeam"]}`]['target']}`]['def'];
+                    event["rank"] = originalData[`team${event["sourceTeam"]}`]['curRank'];
 
                     if (event['action'] === "Atk") {
                         // OutMessage To Attack Message.
@@ -314,7 +314,7 @@ export default {
                                         "atk": originalData[`team${event['sourceTeam']}`]['atk'] - 1,
                                         "usedCardNum": originalData[`team${event['sourceTeam']}`]['usedCardNum'] + 1
                                     })
-                                    updateRank();
+                                    em.$store.commit('updateRank');
                                 }
                                 resolve();
                             }, em.delayInterval);
@@ -346,7 +346,7 @@ export default {
                                     "sp": originalData[`team${event['sourceTeam']}`]['sp'] - 1,
                                     "usedCardNum": originalData[`team${event['sourceTeam']}`]['usedCardNum'] + 1
                                 })
-                                updateRank();
+                                em.$store.commit('updateRank');
                                 resolve();
                             }, em.delayInterval);
                         })

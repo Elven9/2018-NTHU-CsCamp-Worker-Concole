@@ -79,6 +79,12 @@ export default {
             this.sp = 0;
             this.money = 0;
             this.teamtoChange = -1;
+
+            // Update Rank.
+            setTimeout(() => {
+                this.$store.commit('updateRank');
+                console.log('updateRank Completed.');
+            }, 500);
         }
     }
 }
