@@ -16,6 +16,7 @@
                     <h4>是否大亂鬥中：{{ getIsBattling?"進行中":"尚未開始" }}</h4>
                 </div>
                 <div class="col-4"><button type="button" class="btn btn-outline-warning" @click="toggleIsBattling()">是否進行</button></div>
+                <div class="col-12"><natural-event-controll :isPercent="isByPercent" :valuePayload="{number: atkAmountInNum, percent: atkAmountInPercent}"></natural-event-controll></div>
             </div>
         </div>
         <div class="col-6">
@@ -40,7 +41,7 @@
 
             <div id="changeInput" class="row align-items-center">
                 <div class="col-5">
-                    <h4>攻擊數字</h4>
+                    <h4>攻擊數字<br>(天然事件數字)</h4>
                 </div>
                 <div class="col-7">
                      <input v-model="katkAmountInNum" type="email" class="form-control" aria-describedby="emailHelp">
@@ -49,7 +50,7 @@
 
              <div id="changeInput" class="row align-items-center">
                 <div class="col-5">
-                    <h4>攻擊趴數</h4>
+                    <h4>攻擊趴數<br>(天然事件趴數)</h4>
                 </div>
                 <div class="col-7">
                      <input v-model="katkAmountInPercent" type="email" class="form-control" aria-describedby="emailHelp">
@@ -96,6 +97,8 @@
                 <div class="col-12">
                     <p id="information">{{ `目前範圍： ${100 * ktime} ～ ${300 * ktime}（實際數字）` }}</p>
                     <p id="information">{{ `目前範圍： ${0.1 * ktime} ～ ${0.15 * ktime} （實際數字）` }}</p>
+                    <p id="information">{{ `BOSS目前範圍： ${-300 * ktime} ～ ${300 * ktime}（實際數字）` }}</p>
+                    <p id="information">{{ `BOSS目前範圍： ${-0.15 * ktime} ～ ${0.15 * ktime} （實際數字）` }}</p>
                 </div>
             </div>
 
@@ -106,10 +109,12 @@
 <script>
 import { teaminCN } from '~/assets/js/globalData.js';
 import UpdateData from '~/components/UpdateData/UpdateData';
+import NaturalEventControll from '~/components/CommitChange/CommitNaturalEvent'
 
 export default {
     components: {
-        UpdateData
+        UpdateData,
+        NaturalEventControll
     },
     data(){
         return {
@@ -181,8 +186,6 @@ export default {
                 }
             }
 
-            var em = this;
-
             // Sort For Processing Priority.
             events.sort(( firstElement, secondElement) => {
                 if (firstElement.rank > secondElement.rank) {
@@ -193,54 +196,8 @@ export default {
                     return 0;
                 }
             })
-
-            function updateRank() {
-                // last rank.
-                var lastRank = [];
-                for(let i = 0;i < 8;i++) {
-                    lastRank.push(em.$store.state[`team${i + 1}`]["curRank"]);
-                }
-
-                var data = [];
-                for (let i = 0; i < 8; i++) {
-                    var payload = {
-                        money: em.$store.state[`team${i + 1}`]['money'],
-                        team: i
-                    };
-                    data.push(payload);
-                }
-                data.sort((obj1, obj2) => {
-                    if (obj1["money"] < obj2["money"]) {
-                    return 1;
-                    } else if (obj1["money"] > obj2["money"]) {
-                    return -1;
-                    } else {
-                    return 0;
-                    }
-                });
-                // update count.
-                var curRank = 1;
-                var count = 1;
-                var lastNum = -1;
-                for (let e of data) {
-                    if (e["money"] !== lastNum) {
-                        curRank = count;
-                        updateData(e["team"], {
-                            "lastRank": lastRank[e["team"]],
-                            "curRank": curRank
-                        });
-                        count += 1;
-                        lastNum =  e["money"];
-                    } else if (e["money"] === lastNum) {
-                        updateData(e["team"], {
-                            "lastRank": lastRank[e["team"]],
-                            "curRank": curRank
-                        });
-                        count += 1;
-                        lastNum =  e["money"];
-                    }
-                }
-             }
+            
+            var em = this;
             
             console.log(events);
             console.log(defTeams);
@@ -274,7 +231,7 @@ export default {
                                     // Update message.
                                     database.ref("announcement").update({
                                         type: "Atk-fail",
-                                        message: `第${teaminCN[event['targetTeam'] - 1]}隊 成功防禦 第${teaminCN[event['sourceTeam'] - 1]}隊！！！`
+                                        message: `第${teaminCN[event['targetTeam'] - 1]}隊 成功防禦 第${teaminCN[event['sourceTeam'] - 1]}隊`
                                     });
                                     // Update both Team's Card status.
                                     // Source status
@@ -292,7 +249,7 @@ export default {
                                 } else {
                                     database.ref("announcement").update({
                                         type: "Atk-success",
-                                        message: `第${teaminCN[event['sourceTeam'] - 1]}隊攻擊第${teaminCN[event['targetTeam'] - 1]}隊成功了！！`
+                                        message: `第${teaminCN[event['sourceTeam'] - 1]}隊 成功攻擊 第${teaminCN[event['targetTeam'] - 1]}隊`
                                     });
                                     if (em.isByPercent) {
                                         if (em.isRandom) {
@@ -326,7 +283,7 @@ export default {
                                 // Update message.
                                 database.ref("announcement").update({
                                     type: "Sp-success",
-                                    message: `第${teaminCN[event['sourceTeam'] - 1]}隊加松果成功！！`
+                                    message: `第${teaminCN[event['sourceTeam'] - 1]}隊加松果成功`
                                 });
                                 if (em.isByPercent) {
                                     if (em.isRandom) {

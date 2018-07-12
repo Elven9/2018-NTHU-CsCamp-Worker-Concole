@@ -153,6 +153,13 @@ function resetAllData() {
     }
 }
 
+function resetAnnouncement() {
+    database.ref('announcement').update({
+        "message": "",
+        "type": ""
+    })
+}
+
 function resetEvent() {
     for(let i = 0; i < 8; i++) {
         getEventReference(i).set({
